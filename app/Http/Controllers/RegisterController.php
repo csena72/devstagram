@@ -36,6 +36,6 @@ class RegisterController extends Controller
 
         auth()->attempt($validated);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index', auth()->user()->username);
     }
 }
