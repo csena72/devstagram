@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+
 
 class PostController extends Controller
 {
 
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware("auth")->except('index', 'show');
     }
 
     public function index(User $user)
@@ -47,5 +49,14 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('posts.index', auth()->user()->username);
+    }
+
+
+    public function show(Post $post)
+    {
+
+        return view('posts.show', [
+            'post' => $post,
+        ]);
     }
 }
