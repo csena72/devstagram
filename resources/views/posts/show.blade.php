@@ -6,7 +6,7 @@
 
 @section('contenido')
 
-<div class="container mx-auto flex">
+<div class="container mx-auto md:flex">
 
     <div class="md:w-1/2">
         <img src="{{ asset('uploads') . '/' . $post->imagen }}" alt="imagen del post {{ $post->titulo }}">
@@ -29,7 +29,13 @@
 
             <p class="text-xl font-bold text-center mb-4">Agrega un nuevo comentario</p>
 
-            <form action="" method="POST">
+            @if(session('mensaje'))
+                <div class="bg-green-500 p-2 rounded-lg mb-6 text-white text-center">
+                    {{ session('mensaje') }}
+                </div>
+            @endif
+
+            <form action="{{ route('comentarios.store', ['post' => $post, 'user' => $user]) }}" method="POST">
                 @csrf
                 <div class="mb-5">
                     <label for="comentario" class="mb-2 block uppercase text-gray-500 font-bold">
@@ -51,6 +57,24 @@
                 >
             </form>
             @endauth
+
+            <div class="bg-white shadow mb-5 max-h-96 overflow-y-scroll mt-5">
+                @if ($post->comentarios->count() > 0)
+
+                    @foreach ($post->comentarios as $comentario)
+                        <div class="p-5 border-b border-gray-300">
+                            <a href="{{ route('posts.index', $comentario->user) }}">
+                                <h3 class="font-bold">{{ $comentario->user->username }}</h3>
+                            </a>
+                            <p>{{ $comentario->comentario }}</p>
+                            <p class="text-sm text-gray-500">{{ $comentario->created_at->diffForHumans() }}</p>
+                        </div>
+                    @endforeach
+
+                @else
+                    <p class="p-10 text-center">No hay comentarios</p>
+                @endif
+            </div>
         </div>
     </div>
 </div>
