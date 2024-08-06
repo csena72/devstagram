@@ -82,21 +82,7 @@
     <h2 class="text-3xl text-center mt-10 font-black">Publicaciones</h2>
 
     @if (count($posts) >= 0)
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-        @foreach ($posts as $post)
-        <div>
-            <a href="{{ route('posts.show', ['post' => $post]) }}">
-                <img src="{{ asset('uploads') . '/' . $post->imagen }}" alt="imagen del post {{ $post->titulo }}">
-            </a>
-        </div>
-        @endforeach
-    </div>
-
-    <div class="my-10">
-        {{ $posts->links('pagination::tailwind') }}
-    </div>
-
+        <x-listar-post  :posts="$posts" />
     @else
         <p class="text-center text-2xl mt-5">No hay publicaciones aún</p>
     @endif
