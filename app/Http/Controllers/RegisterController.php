@@ -29,7 +29,7 @@ class RegisterController extends Controller
             'name' => $validated['name'],
             'username' => Str::slug($validated['username']),
             'email' => $validated['email'],
-            // 'password' => Hash::make($validated['password']),
+            'password' => Hash::make($validated['password']),
         ]);
 
         session()->flash('success', 'Cuenta creada exitosamente');
